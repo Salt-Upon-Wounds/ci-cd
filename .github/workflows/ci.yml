@@ -26,6 +26,7 @@ jobs:
 
       - name: Run linters
         run: npm run lint
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
 
   test:
     name: Run Tests
@@ -45,6 +46,7 @@ jobs:
 
       - name: Run tests
         run: npm run test
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
 
   build:
     name: Build Application
@@ -64,3 +66,4 @@ jobs:
 
       - name: Build application
         run: npm run build
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
