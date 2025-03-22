@@ -2,13 +2,14 @@ name: Deploy to Netlify
 
 on:
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize, reopened]
 
 jobs:
   deploy:
     name: Deploy to Netlify
     runs-on: ubuntu-latest
+    environment:
+      name: netlify
 
     steps:
       - name: Checkout repository
@@ -26,17 +27,20 @@ jobs:
         run: npm run build
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v2
-        with:
-          publish-dir: "./dist"
-          production-deploy: false
-          alias: pr-${{ github.event.pull_request.number }}
+        id: deploy
+        uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --message "Deploy from GitHub Actions"
 
-      - name: Add comment with deploy preview link
+      - name: Get deploy URL from Netlify
         run: |
-          curl -sL https://github.com/netlify/cli/releases/download/v3.9.2/netlify-cli-linux-x64.tar.gz | tar xz
-          sudo mv netlify /usr/local/bin/
-          netlify deploy --dir=build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN --message="Deploy for commit ${{ github.sha }}"
+          echo "Draft Deployment URL: ${{ steps.deploy.outputs.NETLIFY_URL }}"
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Draft Deployment URL: ${{ steps.deploy.outputs.NETLIFY_URL }}
