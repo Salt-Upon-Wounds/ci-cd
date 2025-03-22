@@ -1,4 +1,4 @@
-﻿name: dev-branches-names
+﻿name: Check branch name
 
 on:
   push:
