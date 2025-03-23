@@ -4,6 +4,31 @@
 // This file contains all @font-face declarations, if any.
 // -----------------------------------------------------------------------------
 
+
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat Alternates';
+  font-style: normal;
+  font-weight: 200;
+  src: url('./assets/fonts/montserrat-alternates-v17-latin-200.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat Alternates';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/montserrat-alternates-v17-latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat Alternates';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./assets/fonts/montserrat-alternates-v17-latin-500.woff2') format('woff2');
+}
+
 h2 {
   color: variables.$green-dark;
   font-size: 40px;
