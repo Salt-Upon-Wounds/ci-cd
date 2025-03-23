@@ -31,6 +31,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
+      //minify: true,
     }),
 
     new MiniCssExtractPlugin({
@@ -63,12 +64,19 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          'style-loader',
-          'css-loader',
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              sourceMap: false, // Убедись, что source map отключен
+              modules: false, // Отключи CSS-модули, если они не нужны
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
-              implementation: require('sass'),
+              sourceMap: false,
             },
           },
         ],
@@ -110,7 +118,17 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(woff(2)?|ttf|eot)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: './assets/fonts/[name][ext]',
+        },
+      },
     ],
+  },
+  optimization: {
+    minimize: true,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
