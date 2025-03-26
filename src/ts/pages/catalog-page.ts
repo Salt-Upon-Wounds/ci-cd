@@ -85,12 +85,14 @@ class CatalogPage extends Page {
   }
 
   draw(id?: string) {
+    const bodyWrapper = document.querySelector('.body__wrapper');
     const page = this.makePage(id);
     if (page && this.container) {
       this.container.innerHTML = '';
       this.container.append(page);
       this.drawProductCard(plantsData);
       this.setSettingsButton();
+      bodyWrapper?.classList.remove('body__hidden');
     }
   }
 
